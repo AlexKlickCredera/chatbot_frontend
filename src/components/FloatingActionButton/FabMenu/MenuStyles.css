@@ -1,0 +1,92 @@
+.menu {
+  width: 300px;
+  height: 100vh;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu a {
+  color: hsl(0, 0%, 96%);
+  text-decoration: none;
+}
+
+.menu button {
+  color: hsl(0, 0%, 96%);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.menu ul ul {
+  padding-left: 20px;
+}
+
+.accordion-panel {
+  color: hsl(0, 0%, 96%);
+}
+
+.accordion-header {
+  padding-left: 15px;
+}
+
+.menu-div {
+  width: 90%;
+}
+
+.accordion-item {
+  position: relative;
+  margin: 0px 0 0 20px;
+}
+
+.nav-link {
+  margin-top: 20px !important;
+  margin: 2px 0 0 10px;
+  font-size: 16px;
+}
+
+.nav-dropdown-label {
+  /* color: red; */
+  font-size: 400px;
+}
+
+.model-multi-select {
+  color: #00486c;
+  margin: 5px 0 0 0;
+}
+.model-multi-select:hover {
+  background-color: #e8580f;
+}
+
+.model-select-btn {
+  background-color: #e8580f !important;
+  border-radius: 8px !important;
+  position: relative;
+  left: 140px;
+  margin-top: 5px !important;
+}
+.model-select-btn:hover {
+  background-color: #e8580f !important;
+  transform: scale(1.03);
+}
+
+.nav-li:hover {
+  color: blue;
+  background-color: #e8580f;
+}
+
+.model-select-div {
+  position: relative;
+  display: flex;
+}
+
+.pattern-checks-sm{
+  height: 100vh !important;
+
+  width: 100%;
+}

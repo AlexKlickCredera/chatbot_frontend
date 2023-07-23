@@ -1,25 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Chat from "./pages/chat/MultiChat";
+import SingleChat from "./pages/chat/SingleChat";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Fab from "./components/FloatingActionButton/FAB";
+// import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
+// import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 function App() {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: Infinity,
+      },
+    },
+  })
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<SingleChat />} />
+          <Route path="/many_chats/:models" element={<Chat />} />
+          <Route path="/chat/:model" element={<SingleChat />} />
+        </Routes>
+      </BrowserRouter>
+      <div style={{position:'absolute', left:'0px', top:'100px'}}>
+        <Fab />
+        {/* <Footer /> */}
+      </div>
+
+    </QueryClientProvider>
   );
 }
 
