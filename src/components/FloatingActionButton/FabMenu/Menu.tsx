@@ -1,24 +1,17 @@
-import "./MenuStyles.css";
-import { useNavigate } from "react-router-dom";
-import {
-  Accordion,
-  AccordionHeader,
-  AccordionItem,
-  AccordionPanel,
-  Button,
-  DropdownProps,
-} from "@fluentui/react-components";
-import Select from "react-select";
 import { useState } from "react";
+import Select from "react-select";
+import "./MenuStyles.css";
 
-export function Menu(props: Partial<DropdownProps>) {
-  const options = [
-    { value: "gpt-4", label: "GPT-4" },
-    { value: "gpt-4-32k", label: "GPT-4-32k" },
-    { value: "gpt-35-turbo", label: "Chat-GPT" },
-    { value: "gpt-35-turbo-16k", label: "Chat-GPT-Large" },
-  ];
+const options = [
+  { value: "gpt-4", label: "GPT-4" },
+  { value: "gpt-4-32k", label: "GPT-4-32k" },
+  { value: "gpt-35-turbo", label: "Chat-GPT" },
+  { value: "gpt-35-turbo-16k", label: "Chat-GPT-Large" },
+];
+
+export function Menu() {
   const [selectedModels, updateSelectedModels] = useState<string[] | []>([]);
+  const [isOpen, setIsOpen] = useState<{ [key: string]: boolean }>({ "1": false, "2": false });
 
   const updateModelSelection = (selectedOptions: any, actionMeta: any) => {
     if (selectedOptions) {
@@ -28,21 +21,22 @@ export function Menu(props: Partial<DropdownProps>) {
       updateSelectedModels([]);
     }
   };
+
   const handleClick = () => {
     window.location.href = `/many_chats/${selectedModels[0]}&${selectedModels[1]}`;
   };
+
+  const toggleAccordion = (index: string) => {
+    setIsOpen({ ...isOpen, [index]: !isOpen[index] });
+  };
+
   return (
     <nav className="menu">
         <div className="menu-div">
-          <Accordion>
-            <AccordionItem value="1">
-              <AccordionHeader
-                className="accordion-header"
-                expandIconPosition="end"
-              >
-                Chat with Single Chatbot
-              </AccordionHeader>
-              <AccordionPanel className="accordion-panel">
+          <div>
+            <button className="accordion-header" onClick={() => toggleAccordion("1")}>Chat with Single Chatbot</button>
+            {isOpen["1"] && (
+              <div className="accordion-panel">
                 <div className="accordion-item">
                   <ul>
                     <li className="nav-li">
@@ -59,16 +53,11 @@ export function Menu(props: Partial<DropdownProps>) {
                     </li>
                   </ul>
                 </div>
-              </AccordionPanel>
-            </AccordionItem>
-            <AccordionItem value="2">
-              <AccordionHeader
-                className="accordion-header"
-                expandIconPosition="end"
-              >
-                Chat with Multiple Chatbots
-              </AccordionHeader>
-              <AccordionPanel className="accordion-panel">
+              </div>
+            )}
+            <button className="accordion-header" onClick={() => toggleAccordion("2")}>Chat with Multiple Chatbots</button>
+            {isOpen["2"] && (
+              <div className="accordion-panel">
                 <div className="accordion-item">
                   <ul style={{ width: "100%", height: "24px" }}>
                     <li>
@@ -84,21 +73,22 @@ export function Menu(props: Partial<DropdownProps>) {
                         className="model-multi-select"
                         classNamePrefix="select"
                       />
-                      {selectedModels.length === 2 ? (
-                        <Button
+                      {selectedModels.length === 2 && (
+                        <button
                           onClick={handleClick}
                           className="model-select-btn"
                         >
                           Chat
-                        </Button>
-                      ) : null}
+                        </button>
+                      )}
                     </li>
                   </ul>
                 </div>
-              </AccordionPanel>
-            </AccordionItem>
-          </Accordion>
+              </div>
+            )}
+          </div>
         </div>
     </nav>
   );
 }
+

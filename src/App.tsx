@@ -1,11 +1,12 @@
 import "./App.css";
-import Chat from "./pages/chat/MultiChat";
-import SingleChat from "./pages/chat/SingleChat";
+import Chat from "./pages/chat/MultiChat/MultiChat";
+import SingleChat from "./pages/chat/SingleChat/SingleChat";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Fab from "./components/FloatingActionButton/FAB";
+import Fab from "./components/FloatingActionButton/FloatingActionButton";
 // import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 // import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import FloatingActionButton from "./components/FloatingActionButton/FloatingActionButton";
 
 function App() {
   const queryClient = new QueryClient({
@@ -25,8 +26,7 @@ function App() {
         </Routes>
       </BrowserRouter>
       <div style={{position:'absolute', left:'0px', top:'100px'}}>
-        <Fab />
-        {/* <Footer /> */}
+        <FloatingActionButton />
       </div>
 
     </QueryClientProvider>

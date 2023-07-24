@@ -1,41 +1,30 @@
-import { useState } from "react";
-import NovartisLogo from "../../assets/novartis.png";
-import "./MenuToggleStyles.css";
-import NovartisFull from "../../assets/novartis-logo-out.png";
+import { motion } from 'framer-motion';
+import CrederaLogoFull from '../../../assets/credera-logo-full.png'; // update with your path
+import CrederaLogo from  '../../../assets/credera-logo.png'; // update with your path
+import styles from './MenuToggle.module.css';
 
-export const MenuToggle = ({ toggle }: any) => {
-  const [toggled, SetToggled] = useState(false);
-  const clickLogo = () =>{
-    SetToggled(!toggled)
-    toggle()
-  }
+interface MenuToggleProps {
+  toggle: () => void;
+  isOpen: boolean;
+}
+
+export const MenuToggle: React.FC<MenuToggleProps> = ({ toggle, isOpen }) => {
+  const variants = {
+    open: { opacity: 1, scale: 1, x: '0%', y: '0%', width: '250px' },
+    closed: { opacity: 1, scale: 1, x: '0%', y: '0%', width: '60px', top: '5px'},
+  };
+
   return (
-    <button onClick={clickLogo} className="fab-button">
-      <div
-        // className={
-        //   disabled
-        //     ? "floating-action-button-disabled"
-        //     : visibility
-        //     ? "floating-action-button-open"
-        //     : "floating-action-button"
-        // }
-        // onClick={disabled ? undefined : onClick}
-        className={toggled ? "btnImgDivFull" : "btnImgDiv"}
-      >
-        {toggled ? (
-          <img
-            src={NovartisFull}
-            alt="Custom Logo"
-            className="Fab-logo-full"
-          />
-        ) : (
-          <img
-            src={NovartisLogo}
-            alt="Custom Logo"
-            className="floating-action-button-logo"
-          />
-        )}
-      </div>
+    <button onClick={toggle} className={isOpen ? styles.menuToggleButtonFull : styles.menuToggleButton}>
+      <motion.img
+        animate={isOpen ? "open" : "closed"}
+        variants={variants}
+        transition={{ duration: 0.35, ease: "easeInOut" }}
+        className={isOpen ? styles.fabLogoFull : styles.fabLogo}
+        src={isOpen ? CrederaLogoFull : CrederaLogo}
+        alt="Custom Logo"
+      />
     </button>
   );
 };
+

@@ -11,11 +11,12 @@ body {
   --red: #fe0222;
   --orange: #fd7702;
   --yellow: #ffbb00;
-  --novartis_blue: #006A9E;
-  --novartis_orange: #E8580F;
-  --novartis_yellow: #F7B516;
-  --background: var(--ash-black);
-  --accent: var(--novartis_blue);
+  --credera_blue: rgb(73, 106, 134);
+  --credera_orange: rgb(213, 88, 71);
+  --blue_backdrop: rgb(215, 236, 243);
+  --grey_backdrop: rgb(248, 245, 242);
+  --background: var(--grey_backdrop);
+  --accent: var(--credera_blue);
 
   margin: 0;
   padding: 0;

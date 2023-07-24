@@ -1,9 +1,9 @@
-import './FabStyles.css'
+import './FloatingActionButton.styles.css'
 import { useState, useEffect } from "react";
 import { useAnimate, stagger } from "framer-motion";
-import { MenuToggle } from "./MenuToggle";
-import { Menu } from "./Menu";
-import { ModelCards } from '../Cards/Card';
+import { MenuToggle } from "./FabMenuToggle";
+import { Menu } from "./FabMenu";
+
 function useMenuAnimation(isOpen: boolean) {
   const [scope, animate] = useAnimate();
 
@@ -49,7 +49,11 @@ function useMenuAnimation(isOpen: boolean) {
 
   return scope;
 }
-
+interface FloatingActionButtonProps {
+  selectModel: () => void;
+  visibility: boolean;
+  disabled: boolean;
+}
 export default function FloatingActionButton() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -58,7 +62,7 @@ export default function FloatingActionButton() {
   return (
     <div ref={scope}>
       <Menu/>
-      <MenuToggle toggle={() => setIsOpen(!isOpen)} />
+      <MenuToggle toggle={() => setIsOpen(!isOpen)} isOpen={isOpen} />
     </div>
   );
 }
