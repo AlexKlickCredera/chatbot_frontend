@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect, FC } from "react";
 import { BroomRegular, SquareRegular } from "@fluentui/react-icons";
 import ReactMarkdown from "react-markdown";
-import styles from "./Chat.module.css";
+import styled from "styled-components";
 import { conversationApi } from "../../api";
 import { QuestionInput } from "../QuestionInput";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -20,6 +20,131 @@ import {
   IMutationArgs,
 } from "../../types";
 
+const Container = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+
+const ChatRoot = styled.div`
+  flex: 1;
+  display: flex;
+  margin-top: 0px;
+  gap: 20px;
+  justify-content: center;
+  height: calc(100vh - 100px);
+  width: 100%;
+`;
+
+const ChatContainer = styled.div`
+  flex: 1;
+  max-width: 1028px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(
+    108.78% 108.78% at 50.02% 19.78%,
+    #ffffff 57.29%,
+    #eef6fe 100%
+  );
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.14), 0px 0px 2px rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  overflow-y: auto;
+  height: calc(100vh - 100px);
+  max-height: calc(100vh - 200px);
+`;
+
+const ChatHeader = styled.h2`
+  margin: 12px 0 0 0;
+  font-size: 22px;
+`;
+
+const PoweredBy = styled.span`
+  margin: 12px 0 0 0;
+  font-size: 12px;
+`;
+
+const ChatMessageStream = styled.div`
+  flex-grow: 1;
+  width: 85%;
+  overflow-y: auto;
+  padding-left: 12px;
+  padding-right: 12px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 24px;
+`;
+
+const StopGeneratingContainer = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 16px;
+  gap: 4px;
+  position: absolute;
+  width: 161px;
+  height: 32px;
+  left: calc(50% - 161px / 2 + 25.8px);
+  bottom: 116px;
+  border: 1px solid #d1d1d1;
+  border-radius: 16px;
+`;
+
+const StopGeneratingIcon = styled.div`
+  width: 14px;
+  height: 14px;
+  color: #424242;
+`;
+
+const StopGeneratingText = styled.span`
+  width: 103px;
+  height: 20px;
+  font-family: "Segoe UI";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  color: #242424;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+`;
+
+const ChatInput = styled.div`
+  position: sticky;
+  flex: 0 0 120px;
+  padding-top: 12px;
+  padding-bottom: 24px;
+  padding-left: 24px;
+  padding-right: 24px;
+  width: calc(100% - 100px);
+  margin-top: 8px;
+`;
+
+const ClearChatBroom = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  left: 12px;
+  top: 60px;
+  color: #ffffff;
+  border: 1px solid #d1d1d1;
+  border-radius: 20px;
+  z-index: 1;
+  cursor: pointer;
+`;
 
 const ChatBotInstance: FC<ChatBotIteratorProps> = ({ model }) => {
   const lastQuestionRef = useRef<string>("");
@@ -117,13 +242,12 @@ const ChatBotInstance: FC<ChatBotIteratorProps> = ({ model }) => {
   );
 
   return (
-    <div className={styles.chatContainer} role="main">
-      <div className={styles.chatRoot}>
-        <div className={styles.chatContainer}>
-          <h4 className={styles.chatHeader}>Credera Chat</h4>
-          <h5 className={styles.poweredBy}>powered by {model}</h5>
-          <div
-            className={styles.chatMessageStream}
+    <Container role="main">
+      <ChatRoot>
+        <ChatContainer>
+          <ChatHeader>Credera Chat</ChatHeader>
+          <PoweredBy>powered by {model}</PoweredBy>
+          <ChatMessageStream
             style={{ marginBottom: isLoading ? "40px" : "0px" }}
             role="log"
           >
@@ -149,12 +273,11 @@ const ChatBotInstance: FC<ChatBotIteratorProps> = ({ model }) => {
 
             {showLoadingMessage && <LoadingMessage />}
             <div ref={chatMessageStreamEnd} />
-          </div>
+          </ChatMessageStream>
 
-          <div className={styles.chatInput}>
+          <ChatInput>
             {isLoading && (
-              <div
-                className={styles.stopGeneratingContainer}
+              <StopGeneratingContainer
                 role="button"
                 aria-label="Stop generating"
                 tabIndex={0}
@@ -163,14 +286,11 @@ const ChatBotInstance: FC<ChatBotIteratorProps> = ({ model }) => {
                   e.key === "Enter" || e.key === " " ? stopGenerating() : null
                 }
               >
-                <SquareRegular
-                  className={styles.stopGeneratingIcon}
-                  aria-hidden="true"
-                />
-                <span className={styles.stopGeneratingText} aria-hidden="true">
+                <StopGeneratingIcon aria-hidden="true" />
+                <StopGeneratingText aria-hidden="true">
                   Stop generating
-                </span>
-              </div>
+                </StopGeneratingText>
+              </StopGeneratingContainer>
             )}
             <div
               role="button"
@@ -181,8 +301,7 @@ const ChatBotInstance: FC<ChatBotIteratorProps> = ({ model }) => {
               }
               aria-label="Clear session"
             >
-              <BroomRegular
-                className={styles.clearChatBroom}
+              <ClearChatBroom
                 style={{
                   background:
                     isLoading || chat_history.messages.length === 0
@@ -202,10 +321,10 @@ const ChatBotInstance: FC<ChatBotIteratorProps> = ({ model }) => {
               disabled={isLoading}
               onSend={(question) => makeApiRequest(question)}
             />
-          </div>
-        </div>
-      </div>
-    </div>
+          </ChatInput>
+        </ChatContainer>
+      </ChatRoot>
+    </Container>
   );
 };
 
