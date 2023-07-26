@@ -7,9 +7,16 @@
     position: absolute;
     right: 5vw;
     width: 90vw;
+    height: 100%;
 }
+/* .container. */
 
 .singleChatStack {
     max-height: calc(100vh - 200px);
     justify-content: center;
+}
+
+.webviewer {
+    visibility: visible;
+    z-index: 999;
 }
